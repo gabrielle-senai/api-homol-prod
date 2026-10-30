@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Patinhas Felizes PetShop</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Arial, Helvetica, sans-serif; color: #333; background: #fffaf3; }
+    header { background: #ff8a3d; color: #fff; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    header h1 { font-size: 1.5rem; }
+    .amb { background: #fff; color: #d9480f; font-weight: bold; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; }
+    .hero { text-align: center; padding: 56px 20px; background: #ffe8cc; }
+    .hero h2 { font-size: 2rem; margin-bottom: 12px; color: #d9480f; }
+    .hero p { max-width: 560px; margin: 0 auto 20px; }
+    .btn { display: inline-block; background: #ff8a3d; color: #fff; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; }
+    section { max-width: 960px; margin: 0 auto; padding: 40px 20px; }
+    section h3 { text-align: center; margin-bottom: 24px; color: #d9480f; font-size: 1.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .card { background: #fff; border: 1px solid #ffd8a8; border-radius: 12px; padding: 20px; text-align: center; }
+    .card .ico { font-size: 2.4rem; }
+    .card h4 { margin: 8px 0; }
+    .preco { color: #d9480f; font-weight: bold; margin-top: 8px; }
+    .contato { background: #fff; border-top: 1px solid #ffd8a8; text-align: center; }
+    footer { background: #333; color: #fff; text-align: center; padding: 16px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🐾 Patinhas Felizes</h1>
+    <span class="amb">Ambiente: __AMBIENTE__</span>
+  </header>
+
+  <div class="hero">
+    <h2>Cuidado e carinho para o seu melhor amigo</h2>
+    <p>Banho, tosa, consultas e tudo o que o seu pet precisa em um só lugar.</p>
+    <a class="btn" href="#contato">Agende agora</a>
+  </div>
+
+  <section>
+    <h3>Nossos serviços</h3>
+    <div class="grid">
+      <div class="card"><div class="ico">🛁</div><h4>Banho</h4><p>Banho completo com produtos suaves.</p><p class="preco">a partir de R$ 50</p></div>
+      <div class="card"><div class="ico">✂️</div><h4>Tosa</h4><p>Tosa higiênica e estética.</p><p class="preco">a partir de R$ 70</p></div>
+      <div class="card"><div class="ico">🩺</div><h4>Consulta veterinária</h4><p>Check-up e vacinação.</p><p class="preco">a partir de R$ 120</p></div>
+      <div class="card"><div class="ico">🦴</div><h4>Pet Shop</h4><p>Rações, petiscos e brinquedos.</p><p class="preco">diversas opções</p></div>
+    </div>
+  </section>
+
+  <section class="contato" id="contato">
+    <h3>Contato</h3>
+    <p>📍 Rua dos Pets, 123 - Centro</p>
+    <p>📞 (11) 99999-0000</p>
+    <p>🕘 Seg a Sáb, das 8h às 18h</p>
+  </section>
+
+  <footer>© 2026 Patinhas Felizes PetShop - Atividade de CI/CD</footer>
+</body>
+</html>
