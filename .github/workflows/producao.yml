@@ -1,0 +1,79 @@
+name: Producao
+
+on:
+  push:
+    branches: [main]
+
+env:
+  IMAGE_NAME: gabriellecascardi/petshop
+
+jobs:
+  Build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Validar arquivos do site
+        run: |
+          test -f index.html
+          test -f Dockerfile
+          grep -q "__AMBIENTE__" index.html
+          echo "Arquivos do site validados"
+
+  Imagem:
+    name: Imagem
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build e Push da imagem
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          build-args: |
+            AMBIENTE=PRODUÇÃO
+          tags: |
+            ${{ env.IMAGE_NAME }}:prod
+            ${{ env.IMAGE_NAME }}:prod-${{ github.sha }}
+
+  Deploy_Producao:
+    name: Deploy Produção
+    runs-on: ubuntu-latest
+    needs: Imagem
+    if: github.ref == 'refs/heads/main'
+    environment: producao
+    steps:
+      - name: Deploy via SSH na EC2 (porta 80)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker pull ${{ env.IMAGE_NAME }}:prod
+
+            sudo docker stop petshop_prod 2>/dev/null || true
+            sudo docker rm petshop_prod 2>/dev/null || true
+
+            sudo docker run -d \
+              --name petshop_prod \
+              --restart unless-stopped \
+              -p 80:80 \
+              ${{ env.IMAGE_NAME }}:prod
+
+            sleep 5
+            curl -f http://localhost:80/ > /dev/null || exit 1
+            echo "Produção no ar na porta 80"
+
+            sudo docker image prune -f
